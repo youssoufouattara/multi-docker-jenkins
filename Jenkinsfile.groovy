@@ -17,7 +17,8 @@ node(){
 
     print buildNum
     print branchName
-    sh 'echo "${DOCKER_ID}"'
+    sh 'echo ${DOCKER_ID}'
+    sh 'echo "$DOCKER_ID"'
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
@@ -40,7 +41,7 @@ node(){
     }
 
     stage("connection to dockerhub"){ 
-      sh 'echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_ID} --password-stdin'
+      sh 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_ID}" --password-stdin'
       
     }    
 
