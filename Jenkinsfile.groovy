@@ -1,7 +1,7 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 
-node(){
+pipeline(){
   try{
 
     def buildNum = env.BUILD_NUMBER 
@@ -16,7 +16,7 @@ node(){
     print buildNum
     print branchName
 
-  stage
+  stages {
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
     }
@@ -48,6 +48,7 @@ node(){
       sh 'docker push youatt/multi-server'
       sh 'docker push youatt/multi-worker'
     }
+  }
   }
     finally{
     cleanWs()
