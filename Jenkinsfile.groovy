@@ -1,18 +1,16 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 
-node(){
+node() {
   try{
 
     def buildNum = env.BUILD_NUMBER 
     def branchName= env.BRANCH_NAME
 
     environment{
-      def DOCKER_PASSWORD = credentials('docker_password')
-      def DOCKER_ID = credentials('docker_id')
 
-      DOCKER_ID = 'youatt'
-      DOCKER_PASSWORD = 'bassalor0019'
+      def DOCKER_ID = 'youatt'
+      def DOCKER_PASSWORD = 'bassalor0019'
     }
 
     print buildNum
@@ -41,8 +39,13 @@ node(){
     }
 
     stage("connection to dockerhub"){ 
-      sh 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_ID}" --password-stdin'
+      docker.withRegistry('','mydockerhub_login'){
+      sh 'docker push youatt/multi-client'
+      sh 'docker push youatt/multi-nginx'
+      sh 'docker push youatt/multi-server'
+      sh 'docker push youatt/multi-worker'
       
+      }
     }    
 
     stage("Docker - Push prod images"){
