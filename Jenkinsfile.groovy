@@ -6,17 +6,12 @@ node() {
 
     def buildNum = env.BUILD_NUMBER 
     def branchName= env.BRANCH_NAME
-
-    environment{
-
-      def DOCKER_ID = 'youatt'
-      def DOCKER_PASSWORD = 'bassalor0019'
-    }
-
+/*
+    def DOCKER_ID = credentials('docker_id')
+    def DOCKER_PASSWORD = credentials('docker_password')
+*/
     print buildNum
     print branchName
-    sh 'echo ${DOCKER_ID}'
-    sh 'echo "$DOCKER_ID"'
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
@@ -37,8 +32,12 @@ node() {
       sh 'docker build -t youatt/multi-worker ./worker'
       
     }
+    stage("connection to dockerhub"){
+    def DOCKER_ID = credentials('docker_id')
+    def DOCKER_PASSWORD = credentials('docker_password')
+    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin'
 
-    stage("connection to dockerhub"){ 
+  /*  stage("connection to dockerhub"){ 
       docker.withRegistry('','mydockerhub_login'){
       sh 'docker push youatt/multi-client'
       sh 'docker push youatt/multi-nginx'
@@ -47,7 +46,7 @@ node() {
       
       }
     }    
-
+  */
     stage("Docker - Push prod images"){
       sh 'docker push youatt/multi-client'
       sh 'docker push youatt/multi-nginx'
