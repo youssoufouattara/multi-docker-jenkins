@@ -11,12 +11,13 @@ node(){
       def DOCKER_PASSWORD = credentials('docker_password')
       def DOCKER_ID = credentials('docker_id')
 
-      /* DOCKER_PASSWORD = */
+      DOCKER_ID = 'youatt'
+      DOCKER_PASSWORD = 'bassalor0019'
     }
 
     print buildNum
     print branchName
-    sh 'echo "env.DOCKER_ID"'
+    sh 'echo "${DOCKER_ID}"'
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
@@ -39,7 +40,7 @@ node(){
     }
 
     stage("connection to dockerhub"){ 
-      sh 'echo env.DOCKER_PASSWORD | docker login -u env.DOCKER_ID --password-stdin'
+      sh 'echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_ID} --password-stdin'
       
     }    
 
