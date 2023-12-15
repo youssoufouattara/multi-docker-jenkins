@@ -16,7 +16,6 @@ node(){
     print buildNum
     print branchName
 
-  stages {
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
     }
@@ -48,7 +47,7 @@ node(){
       sh 'docker push youatt/multi-server'
       sh 'docker push youatt/multi-worker'
     }
-  }
+  
   }
     finally{
     cleanWs()
