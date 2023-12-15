@@ -24,10 +24,10 @@ node(){
 
     stage("Docker - Build prod images"){
       
-      def ClientImage = docker.build("docker build -t youatt/multi-client ./client")
-      def NginxImage = docker.build("docker build -t youatt/multi-nginx ./nginx")
-      def ServerImage = docker.build("docker build -t youatt/multi-server ./server")
-      def WorkerImage = docker.build("docker build -t youatt/multi-worker ./worker")
+      def ClientImage = docker.build("-t youatt/multi-client ./client")
+      def NginxImage = docker.build("-t youatt/multi-nginx ./nginx")
+      def ServerImage = docker.build("-t youatt/multi-server ./server")
+      def WorkerImage = docker.build("-t youatt/multi-worker ./worker")
       
     }
 
