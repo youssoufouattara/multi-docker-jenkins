@@ -37,7 +37,7 @@ node(){
     }
 
     stage("connection to dockerhub"){ 
-      sh 'echo ${DOCKER_PASSWORD} | docker login -u "${DOCKER_ID}" --password-stdin'
+      sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin'
       
     }    
 
