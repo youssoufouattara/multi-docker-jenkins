@@ -1,7 +1,7 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 
-pipeline(){
+node(){
   try{
 
     def buildNum = env.BUILD_NUMBER 
