@@ -65,10 +65,8 @@ node(){
       }
       
     }
-
-
-  finally{
-
+  }
+    finally{
     cleanWs()
   }
   }
