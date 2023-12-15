@@ -36,6 +36,7 @@ node() {
     def DOCKER_ID = credentials('docker_id')
     def DOCKER_PASSWORD = credentials('docker_password')
     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin'
+    }
 
   /*  stage("connection to dockerhub"){ 
       docker.withRegistry('','mydockerhub_login'){
@@ -55,7 +56,7 @@ node() {
     }
   
   }
-    finally{
+  finally{
     cleanWs()
   }
   }
