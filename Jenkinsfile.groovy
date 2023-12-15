@@ -15,7 +15,7 @@ node(){
 
     print buildNum
     print branchName
-    print $DOCKER_ID
+    echo "$DOCKER_ID"
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
