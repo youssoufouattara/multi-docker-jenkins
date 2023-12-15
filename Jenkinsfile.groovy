@@ -4,9 +4,7 @@ def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 node(){
   try{
 
-    stage("Github - get project"){
-      git "https://github.com/youssoufouattara/multi-docker-jenkins.git"
-    }
+
     stage("DOCKER - Build test image"){
         docker.build("youatt/react-test", "-f ./client/Dockerfile.dev ./client") 
     }
