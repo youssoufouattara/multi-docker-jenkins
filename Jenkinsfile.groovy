@@ -4,7 +4,15 @@ def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 node(){
   try{
 
+    def buildNum = env.BUILD_NUMBER 
+    def branchName= env.BRANCH_NAME
 
+    print buildNum
+    print branchName
+
+    stage("Github - get project"){
+      git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
+    }
     stage("DOCKER - Build test image"){
         docker.build("youatt/react-test", "-f ./client/Dockerfile.dev ./client") 
     }
