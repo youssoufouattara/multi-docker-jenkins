@@ -23,24 +23,23 @@ node(){
     }
 
     stage("Docker - Build prod images"){
-      
-      def ClientImage = docker.build("-t youatt/multi-client ./client")
-      def NginxImage = docker.build("-t youatt/multi-nginx ./nginx")
-      def ServerImage = docker.build("-t youatt/multi-server ./server")
-      def WorkerImage = docker.build("-t youatt/multi-worker ./worker")
+      sh 'docker build -t youatt/multi-client ./client'
+      sh 'docker build -t youatt/multi-nginx ./nginx'
+      sh 'docker build -t youatt/multi-server ./server'
+      sh 'docker build -t youatt/multi-worker ./worker'
       
     }
 
     stage("connection to dockerhub"){ 
-        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin'
+      sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin'
       
     }    
 
     stage("Docker - Push prod images"){
-        ClientImage.Push()
-        NginxImage.Push()
-        ServerImage.Push()
-        WorkerImage.Push()      
+      sh 'docker push youatt/multi-client'
+      sh 'docker push youatt/multi-nginx'
+      sh 'docker push youatt/multi-server'
+      sh 'docker push youatt/multi-worker'
     }
   }
     finally{
