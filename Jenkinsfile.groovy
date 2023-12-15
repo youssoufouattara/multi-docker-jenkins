@@ -8,14 +8,14 @@ node(){
     def branchName= env.BRANCH_NAME
 
     environment{
-      DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')
-      DOCKER_ID = credentials('DOCKER_ID')
+      DOCKER_PASSWORD = credentials('docker_password')
+      DOCKER_ID = credentials('docker_id')
       
     }
 
     print buildNum
     print branchName
-    sh 'echo "${DOCKER_ID}"'
+    sh 'echo "$DOCKER_ID"'
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
