@@ -32,13 +32,8 @@ node() {
       sh 'docker build -t youatt/multi-worker ./worker'
       
     }
-    stage("connection to dockerhub"){
-    def DOCKER_ID = credentials('docker_id')
-    def DOCKER_PASSWORD = credentials('docker_password')
-    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin'
-    }
 
-  /*  stage("connection to dockerhub"){ 
+    stage("connection to dockerhub"){ 
       docker.withRegistry('','mydockerhub_login'){
       sh 'docker push youatt/multi-client'
       sh 'docker push youatt/multi-nginx'
@@ -47,13 +42,7 @@ node() {
       
       }
     }    
-  */
-    stage("Docker - Push prod images"){
-      sh 'docker push youatt/multi-client'
-      sh 'docker push youatt/multi-nginx'
-      sh 'docker push youatt/multi-server'
-      sh 'docker push youatt/multi-worker'
-    }
+  
   
   }
   finally{
