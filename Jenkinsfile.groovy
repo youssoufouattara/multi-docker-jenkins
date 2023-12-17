@@ -59,7 +59,7 @@ node(){
 
     stage('Déploiement vers Elastic Beanstalk') {
       // Créez une nouvelle version de l'application Elastic Beanstalk
-      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
+      withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
         elasticBeanstalkCreateApplicationVersion(
           applicationName: $EB_APPLICATION_NAME,
           versionLabel: $APPLICATION_VERSION,
