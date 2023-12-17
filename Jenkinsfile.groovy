@@ -1,11 +1,8 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 
-pipeline{
-  agent any
-  
-
-
+node{
+try{
     environment {
         AWS_REGION = 'eu-north-1'
         //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY')
@@ -18,8 +15,6 @@ pipeline{
         branchName= env.BRANCH_NAME
     }
 
-    stages{
-    node()
     print buildNum
     print branchName
 
@@ -60,42 +55,35 @@ pipeline{
     }
 
     stage('Déploiement vers S3') {
-            steps {
-                script {
-                    // Téléchargez le package d'application vers S3
-                    withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
-                        s3Upload(bucket: $S3_BUCKET_NAME, includePathPattern: '**/*')
-                    }
-                }
-            }
-        }   
+    // Téléchargez le package d'application vers S3
+      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
+        s3Upload(bucket: $S3_BUCKET_NAME, includePathPattern: '**/*')
+        }
+      }   
   
 
     stage('Déploiement vers Elastic Beanstalk') {
-            steps {
-                script {
-                    // Créez une nouvelle version de l'application Elastic Beanstalk
-                    withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
-                        elasticBeanstalkCreateApplicationVersion(
-                            applicationName: $EB_APPLICATION_NAME,
-                            versionLabel: $APPLICATION_VERSION,
-                            s3Bucket: $S3_BUCKET_NAME,
-                            s3Key: $APPLICATION_VERSION
-                        )
+      // Créez une nouvelle version de l'application Elastic Beanstalk
+      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
+        elasticBeanstalkCreateApplicationVersion(
+          applicationName: $EB_APPLICATION_NAME,
+          versionLabel: $APPLICATION_VERSION,
+          s3Bucket: $S3_BUCKET_NAME,
+          s3Key: $APPLICATION_VERSION
+        )
                     }
 
-                    // Mettez à jour l'environnement Elastic Beanstalk pour utiliser la nouvelle version
-                    withAWS(region: AWS_REGION, credentials: 'aws-credentials-id') {
-                        elasticBeanstalkUpdateEnvironment(
-                            environmentName: $EB_ENVIRONMENT_NAME,
-                            versionLabel: $APPLICATION_VERSION
+      // Mettez à jour l'environnement Elastic Beanstalk pour utiliser la nouvelle version
+      withAWS(region: AWS_REGION, credentials: 'aws-credentials-id') {
+        elasticBeanstalkUpdateEnvironment(
+        environmentName: $EB_ENVIRONMENT_NAME,
+        versionLabel: $APPLICATION_VERSION
                         )
                     }
                 }
-            }
-        }
-    
-}
-
-
+                    
   }
+  finally{
+    cleanWS()
+  }
+}  
