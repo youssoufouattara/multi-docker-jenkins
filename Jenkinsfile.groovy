@@ -1,18 +1,17 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
-
 node(){
   try{
     environment {
-        AWS_REGION = 'eu-north-1'
-        //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY')
-        //AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_KEY')
-        EB_ENVIRONMENT_NAME = 'Multi-docker-app-env'
-        EB_APPLICATION_NAME = 'multi-docker-app'
-        S3_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-549884507688'
-        APPLICATION_VERSION = 'v1.0' 
-        buildNum = env.BUILD_NUMBER 
-        branchName= env.BRANCH_NAME
+      AWS_REGION = 'eu-north-1'
+      //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY')
+      //AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_KEY')
+      EB_ENVIRONMENT_NAME = 'Multi-docker-app-env'
+      EB_APPLICATION_NAME = 'multi-docker-app'
+      S3_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-549884507688'
+      APPLICATION_VERSION = 'v1.0' 
+      buildNum = env.BUILD_NUMBER 
+      branchName= env.BRANCH_NAME
     }
 
     print buildNum
@@ -80,8 +79,7 @@ node(){
                     }
                 }
                     
-  }
-  finally{
+  }finally{
     cleanWs() 
   }
 }  
