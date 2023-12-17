@@ -51,8 +51,8 @@ node(){
 
     stage('Déploiement vers S3') {
     // Téléchargez le package d'application vers S3
-      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
-        s3Upload(bucket: $S3_BUCKET_NAME, includePathPattern: '**/*')
+      withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
+        s3Upload(bucket: S3_BUCKET_NAME, includePathPattern: '**/*')
         }
       }   
   
