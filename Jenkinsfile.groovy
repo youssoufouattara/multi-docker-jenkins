@@ -47,37 +47,7 @@ node(){
       }
     }   
 
-    stage('Checkout') {
-      checkout scm
-    }
 
-    stage('Déploiement vers S3') {
-    // Téléchargez le package d'application vers S3
-      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
-        s3Upload(bucket: $S3_BUCKET_NAME, includePathPattern: '**/*')
-        }
-      }   
-  
-
-    stage('Déploiement vers Elastic Beanstalk') {
-      // Créez une nouvelle version de l'application Elastic Beanstalk
-      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
-        elasticBeanstalkCreateApplicationVersion(
-          applicationName: $EB_APPLICATION_NAME,
-          versionLabel: $APPLICATION_VERSION,
-          s3Bucket: $S3_BUCKET_NAME,
-          s3Key: $APPLICATION_VERSION
-        )
-                    }
-
-      // Mettez à jour l'environnement Elastic Beanstalk pour utiliser la nouvelle version
-      withAWS(region: AWS_REGION, credentials: 'aws-credentials-id') {
-        elasticBeanstalkUpdateEnvironment(
-        environmentName: $EB_ENVIRONMENT_NAME,
-        versionLabel: $APPLICATION_VERSION
-                        )
-                    }
-                }
                     
   }finally{
     cleanWs() 
