@@ -12,8 +12,6 @@ node(){
     def APPLICATION_VERSION = 'v1.0' 
     def buildNum = env.BUILD_NUMBER 
     def branchName= env.BRANCH_NAME
-    def buildNum = env.BUILD_NUMBER 
-    def branchName= env.BRANCH_NAME
     print buildNum
     print branchName
 
