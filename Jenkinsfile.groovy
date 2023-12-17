@@ -1,8 +1,8 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 
-node() {
-try{
+node(){
+  try{
     environment {
         AWS_REGION = 'eu-north-1'
         //AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY')
@@ -49,9 +49,7 @@ try{
     }   
 
     stage('Checkout') {
-      steps {
-        checkout scm
-      }
+      checkout scm
     }
 
     stage('Déploiement vers S3') {
