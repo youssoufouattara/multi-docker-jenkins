@@ -4,7 +4,6 @@ def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 pipeline{
   agent any
   
-try{
     def buildNum = env.BUILD_NUMBER 
     def branchName= env.BRANCH_NAME
 
@@ -21,6 +20,8 @@ try{
     print branchName
 
     stages{
+    try{
+
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
     }
@@ -93,9 +94,10 @@ try{
             }
         }
     }
-}
-
-  finally{
+      finally{
     cleanWs()
   }
+}
+
+
   }
