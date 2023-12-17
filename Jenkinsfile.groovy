@@ -2,7 +2,16 @@ def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 node(){
   try{
-
+    
+    def AWS_REGION = 'eu-north-1'
+    // def AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY')
+    //def AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_KEY')
+    def EB_ENVIRONMENT_NAME = 'Multi-docker-app-env'
+    def EB_APPLICATION_NAME = 'multi-docker-app'
+    def S3_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-549884507688'
+    def APPLICATION_VERSION = 'v1.0' 
+    def buildNum = env.BUILD_NUMBER 
+    def branchName= env.BRANCH_NAME
     def buildNum = env.BUILD_NUMBER 
     def branchName= env.BRANCH_NAME
     print buildNum
@@ -38,6 +47,37 @@ node(){
       }
     }   
 
+    stage('Checkout') {
+      checkout scm
+    }
+
+    stage('Déploiement vers S3') {
+    // Téléchargez le package d'application vers S3
+      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
+        s3Upload(bucket: $S3_BUCKET_NAME, includePathPattern: '**/*')
+        }
+      }   
+  
+
+    stage('Déploiement vers Elastic Beanstalk') {
+      // Créez une nouvelle version de l'application Elastic Beanstalk
+      withAWS(region: $AWS_REGION, credentials: 'aws_jenkins_credential') {
+        elasticBeanstalkCreateApplicationVersion(
+          applicationName: $EB_APPLICATION_NAME,
+          versionLabel: $APPLICATION_VERSION,
+          s3Bucket: $S3_BUCKET_NAME,
+          s3Key: $APPLICATION_VERSION
+        )
+                    }
+
+      // Mettez à jour l'environnement Elastic Beanstalk pour utiliser la nouvelle version
+      withAWS(region: AWS_REGION, credentials: 'aws-credentials-id') {
+        elasticBeanstalkUpdateEnvironment(
+        environmentName: $EB_ENVIRONMENT_NAME,
+        versionLabel: $APPLICATION_VERSION
+                        )
+                    }
+                }
 
                     
   }finally{
