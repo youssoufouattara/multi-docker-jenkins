@@ -1,7 +1,7 @@
 def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 
 
-node{
+node() {
 try{
     environment {
         AWS_REGION = 'eu-north-1'
