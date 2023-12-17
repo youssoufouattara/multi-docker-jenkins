@@ -4,8 +4,7 @@ def project_token = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEF'
 pipeline{
   agent any
   
-    def buildNum = env.BUILD_NUMBER 
-    def branchName= env.BRANCH_NAME
+
 
     environment {
         AWS_REGION = 'eu-north-1'
@@ -15,12 +14,14 @@ pipeline{
         EB_APPLICATION_NAME = 'multi-docker-app'
         S3_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-549884507688'
         APPLICATION_VERSION = 'v1.0' 
+        buildNum = env.BUILD_NUMBER 
+        branchName= env.BRANCH_NAME
     }
-    print buildNum
-    print branchName
 
     stages{
-    try{
+    node()
+    print buildNum
+    print branchName
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
@@ -93,10 +94,7 @@ pipeline{
                 }
             }
         }
-    }
-      finally{
-    cleanWs()
-  }
+    
 }
 
 
