@@ -69,7 +69,7 @@ node(){
                     }
 
       // Mettez à jour l'environnement Elastic Beanstalk pour utiliser la nouvelle version
-      withAWS(region: AWS_REGION, credentials: 'aws-credentials-id') {
+      withAWS(region: AWS_REGION, credentials: aws-credentials-id) {
         elasticBeanstalkUpdateEnvironment(
         environmentName: $EB_ENVIRONMENT_NAME,
         versionLabel: $APPLICATION_VERSION
