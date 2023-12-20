@@ -72,7 +72,7 @@ node(){
           application: EB_APPLICATION_NAME,
           environment: EB_ENVIRONMENT_NAME,
           bucket: S3_BUCKET_NAME,
-          key: ZIP_FILE_NAME
+          key: ZIP_FILE_NAME,
           versionLabel: APPLICATION_VERSION)
                     }
                 }                  
