@@ -10,17 +10,20 @@ node(){
     def ZIP_FILE_NAME = 'multi-docker.zip'
     def buildNum = env.BUILD_NUMBER 
     def branchName= env.BRANCH_NAME
-    /* Récupération du commitID long */
-    def commitIdLong = sh returnStdout: true, script: 'git rev-parse HEAD'
-    /* Récupération du commitID court */
-    def APPLICATION_VERSION = commitIdLong.take(7)
+
 
     print buildNum
     print branchName
-    print commitId
+
 
     stage("Github - get project"){
       git branch: branchName, url:"https://github.com/youssoufouattara/multi-docker-jenkins.git"
+      /* Récupération du commitID long */
+      def commitIdLong = sh returnStdout: true, script: 'git rev-parse HEAD'
+      /* Récupération du commitID court */
+      def APPLICATION_VERSION = commitIdLong.take(7)
+      print APPLICATION_VERSION
+
     }
     stage("DOCKER - Build test image"){
         docker.build("youatt/react-test", "-f ./client/Dockerfile.dev ./client") 
