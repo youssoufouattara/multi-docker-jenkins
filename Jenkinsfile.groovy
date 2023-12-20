@@ -58,7 +58,7 @@ node(){
 
     stage('Zipper le projet') {
       sh 'sudo apt-get -y install zip'
-      sh 'zip -r ${ZIP_FILE_NAME} .'
+      sh "zip -r ${ZIP_FILE_NAME} ."
     }
 
     stage('Déploiement vers S3') {
