@@ -57,7 +57,7 @@ node(){
     }
 
     stage('Zipper le projet') {
-      sh 'sudo apt-get install zip'
+      sh 'sudo apt-get -y install zip'
       sh 'zip -r ${ZIP_FILE_NAME} .'
     }
 
