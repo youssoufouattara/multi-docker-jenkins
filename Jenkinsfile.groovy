@@ -85,6 +85,7 @@ node(){
 
         stage('Création de la version sur Elastic Beanstalk') {
         // Étape 4: Créer une nouvelle version de l'application sur Elastic Beanstalk
+        withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
         ebCreateApplicationVersion(
             applicationName: EB_APPLICATION_NAME,
             versionLabel: APPLICATION_VERSION,
@@ -92,13 +93,16 @@ node(){
             s3Key: ZIP_FILE_NAME
                     )
         }
+        }
 
         stage('Déploiement sur Elastic Beanstalk') {
           // Étape 5: Mettre à jour l'environnement Elastic Beanstalk avec la nouvelle version
+          withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
           ebCreateApplicationVersion(
               environmentName: EB_ENVIRONMENT_NAME,
               versionLabel: APPLICATION_VERSION
                     )
+          }
         }
 /*
         stage('Déploiement ') {
