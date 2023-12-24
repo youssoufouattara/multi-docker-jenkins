@@ -82,7 +82,7 @@ node(){
                     }
                 }   
 */
-
+/*
         stage('Création de la version sur Elastic Beanstalk') {
         // Étape 4: Créer une nouvelle version de l'application sur Elastic Beanstalk
         elasticBeanstalkCreateApplicationVersion(
@@ -99,6 +99,11 @@ node(){
               environmentName: EB_ENVIRONMENT_NAME,
               versionLabel: APPLICATION_VERSION
                     )
+        }
+*/
+        stage('Déploiement ') {
+          // Étape 5: Mettre à jour l'environnement Elastic Beanstalk avec la nouvelle version
+          sh 'eb deploy'
         }
   }
   finally{
