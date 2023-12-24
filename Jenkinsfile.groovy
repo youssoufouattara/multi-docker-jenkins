@@ -82,10 +82,10 @@ node(){
                     }
                 }   
 */
-/*
+
         stage('Création de la version sur Elastic Beanstalk') {
         // Étape 4: Créer une nouvelle version de l'application sur Elastic Beanstalk
-        elasticBeanstalkCreateApplicationVersion(
+        ebCreateApplicationVersion(
             applicationName: EB_APPLICATION_NAME,
             versionLabel: APPLICATION_VERSION,
             s3Bucket: S3_BUCKET_NAME,
@@ -95,16 +95,17 @@ node(){
 
         stage('Déploiement sur Elastic Beanstalk') {
           // Étape 5: Mettre à jour l'environnement Elastic Beanstalk avec la nouvelle version
-          elasticBeanstalkUpdateEnvironment(
+          ebCreateApplicationVersion(
               environmentName: EB_ENVIRONMENT_NAME,
               versionLabel: APPLICATION_VERSION
                     )
         }
-*/
+/*
         stage('Déploiement ') {
           // Étape 5: Mettre à jour l'environnement Elastic Beanstalk avec la nouvelle version
           sh 'eb deploy'
         }
+*/
   }
   finally{
     cleanWs() 
