@@ -76,9 +76,9 @@ node(){
         createDeployment(
           applicationName: EB_APPLICATION_NAME,
           deploymentGroupName: EB_ENVIRONMENT_NAME,
-          bucket: S3_BUCKET_NAME,
-          key: ZIP_FILE_NAME,
-          versionLabel: APPLICATION_VERSION)
+          s3Bucket: S3_BUCKET_NAME,
+          s3Key: ZIP_FILE_NAME,
+          description: APPLICATION_VERSION)
                     }
                 }   
 
