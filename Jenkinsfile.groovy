@@ -51,66 +51,14 @@ node(){
       sh 'docker push youatt/multi-worker'
       
       }
+    }
+
+    stage("Call deploy Job"){
+      sh 'echo "Build eb_deploy_project pipeline"'
+      build 'eb_deploy_project'
+    
     }   
 
-    stage('Checkout') {
-      checkout scm
-    }
-
-    stage('Zipper le projet') {
-      sh 'sudo apt-get -y install zip'
-      sh "zip -r ${ZIP_FILE_NAME} ."
-    }
-
-    stage('Déploiement vers S3') {
-    // Téléchargez le package d'application vers S3
-      withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
-        s3Upload(bucket: S3_BUCKET_NAME, file: ZIP_FILE_NAME)
-        }
-      }   
-  
-
-    stage('Déploiement vers Elastic Beanstalk') {
-      // Créez une nouvelle version de l'application Elastic Beanstalk
-      withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
-        AWSEBDeploymentBuilder(
-          applicationName: EB_APPLICATION_NAME,
-          awsRegion: AWS_REGION,
-          environmentName: EB_ENVIRONMENT_NAME,
-          bucketName: S3_BUCKET_NAME,
-        //  s3Key: ZIP_FILE_NAME,
-          credentialId: 'aws_jenkins_credential',
-          versionLabelFormat: APPLICATION_VERSION)
-                    }
-                }   
-/*
-
-        stage('Création de la version sur Elastic Beanstalk') {
-        // Étape 4: Créer une nouvelle version de l'application sur Elastic Beanstalk
-        withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
-        ebCreateApplicationVersion(
-            applicationName: EB_APPLICATION_NAME,
-            versionLabel: APPLICATION_VERSION,
-            s3Bucket: S3_BUCKET_NAME,
-            s3Key: ZIP_FILE_NAME)
-        }
-        }
-
-        stage('Déploiement sur Elastic Beanstalk') {
-          // Étape 5: Mettre à jour l'environnement Elastic Beanstalk avec la nouvelle version
-          withAWS(region: AWS_REGION, credentials: 'aws_jenkins_credential') {
-          ebCreateApplicationVersion(
-              environmentName: EB_ENVIRONMENT_NAME,
-              versionLabel: APPLICATION_VERSION
-                    )
-          }
-        }
-/*
-        stage('Déploiement ') {
-          // Étape 5: Mettre à jour l'environnement Elastic Beanstalk avec la nouvelle version
-          sh 'eb deploy'
-        }
-*/
   }
   finally{
     cleanWs() 
